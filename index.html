@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.topnav {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow-x: auto;
+  background: rgb(147, 140, 149);
+  white-space: nowrap;
+  border-radius: 0px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.topnav a {
+  display: inline-block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 20px;
+  text-decoration: none;
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.topnav a:hover {
+  background-color: #87c245;
+  color: white;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  border-radius: 5px;
+
+}
+.topnav a:not(:first-child) {
+  margin-right: 10px;
+}
+
+
+.button-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 5px;
+  margin: 0 10px 10px 4px; /* Adjust margin for spacing between buttons */
+  background-color: #cfd9dc;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  text-decoration: none;
+  font-size: 10px;
+  
+  border-radius: 5px;
+  min-width: 90px;
+}
+
+
+.button img {
+  padding-right: 10px;
+  height: 20px;
+  width: 20px;
+}
+
+.button:hover {
+  background-color: #04AA6D;
+}
+
+.name1 {
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.buttonbox{
+    overflow: auto;
+}
+.buttonbox1{
+  overflow: auto;}
+
+  .buttonbox2{
+    overflow: auto;
+}
+.buttonbox3{
+  overflow: auto;}
+
+  .category-buttons-container {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px;
+    background: #ffffff;
+  }
+
+  .category-buttons-container button {
+    padding: 10px 20px;
+    margin-right: 10px; /* Add some space between buttons */
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
+    white-space: nowrap; /* Prevent line breaks */
+  }
+  .category-buttons-container button:hover {
+  background-color: #f0f0f0;
+}
+  .category-buttons-container button.active {
+    background-color: #b94ece;
+    color: #ffffff;
+    border: 2px solid #5b2ac5;
+    /* transition: border 0.1s ease-in-out; */
+
+
+  }
+
+  .category-buttons-container button {
+  margin-right: 15px;
+  /* transition: background-color 0.9s ease-in-out, color 0.9s ease-in-out; */
+
+}
+
+#no-results-message {
+  text-align: center;
+  font-size: 18px;
+}
+#offline-message {
+      display: none;
+      text-align: center;
+      font-size: 20px;
+      padding: 20px;
+      background-color: #ff5555;
+      color: white;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 9999;
+      transition: background-color 0.5s ease-in-out;
+    }
+     /* Add a green background when online */
+     #offline-message.online {
+      background-color: #04AA6D;
+    }
+
+    .shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-300%);
+  }
+  100% {
+    transform: translateX(500%);
+  }
+}
+  
+</style>
+</head>
+
+<!-- 
+<div class="topnav" id="myTopnav">
+  <a href="#" onclick="showAll()">Show All</a>
+
+    <a href="#" onclick="showContainer('container')">Search Engines</a>
+  <a href="#" onclick="showContainer('container1')">Reels</a>
+  <a href="#" onclick="showContainer('container3')">About</a> 
+  <a href="#class1">search engine</a>
+  <a href="#contact">Reels</a>
+  <a href="#about">About</a>
+  <a href="#text1">Text 1</a>
+  <a href="#text2">Text 2</a>
+  <a href="#text3">Text 3</a>
+  <a href="#text4">Text 4</a>
+  <a href="#text5">Text 5</a>
+  <a href="https://www.google.com">Google</a>
+  <a href="https://www.facebook.com">Facebook</a>
+  <a href="https://www.instagram.com">Instagram</a>
+</div> -->
+
+
+
+<div class="category-buttons-container">
+  <button class="filter-button active" onclick="filterVideos('all')" data-category="all">Show All</button>
+  <button class="filter-button" onclick="filterVideos('Allinone')" data-category="Allinone">All in 1</button>
+
+  <button class="filter-button" onclick="filterVideos('English')" data-category="English">English</button>
+  <button class="filter-button" onclick="filterVideos('Hindi')" data-category="Hindi">Hindi</button>
+  <button class="filter-button" onclick="filterVideos('Telugu')" data-category="Telugu">Telugu</button>
+  <button class="filter-button" onclick="filterVideos('Kannada')" data-category="Kannada">Kannada</button>
+  <button class="filter-button" onclick="filterVideos('Tamil')" data-category="Tamil">Tamil</button>
+
+
+</div>
+
+
+<!-- 
+
+<div id="offline-message">
+  You are currently offline. Please check your internet connection.
+</div>
+
+<div id="no-results-message" style="display: none; padding: 10px; background-color: #ff0000; color: white; border-radius: 10px; font-size: 18px; text-align: center; margin-top: 20px;">
+  No results found. You can see the latest videos <a href="#">here</a>.
+</div>
+ -->
+
+<div class="container" data-category="Allinone">
+
+  <div class="name1">
+<p>All News Channels</p></div>
+<div class="buttonbox1">
+  
+  <div class="button-container">
+    <a href="https://www.youtube.com/watch?v=5nC2sKATujM">
+    <div class="button shimmer">
+      <img src="img/tv9 kannada.png" alt="Image 1" height="30" width="30"> kannada
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/II_m28Bm-iM?si=7re0ShOv7NwXAJmf">
+    <div class="button shimmer">
+      <img src="img/1200px-TV9TeluguLogo-removebg-preview.png" alt="Image 1" height="30" width="30"> Telugu
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/5j0J19IOGAY?si=vx-WccwagkBWtwOL">
+    <div class="button shimmer">
+      <img src="img/TV9_Bangla_logo-removebg-preview.png" alt="Image 1" height="30" width="30">Bangla
+    </div>
+  </a>
+ 
+ 
+    <a href="https://www.youtube.com/live/ATVE4Nnr0bk?si=ut8OAly_Y2xRTKEm">
+    <div class="button shimmer">
+      <img src="img/bharath.png" alt="Image 1" height="30" width="30"> Bharatvarsh
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/5nC2sKATujM?si=p_GgWPlOGXV8v4Zv">
+    <div class="button shimmer">
+      <img src="img/640px-News18_Kannada_logo-removebg-preview.png" alt="Image 1" height="30" width="30"> news18 kannada
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/pN8Bo4CnAxI?si=uiW6uzejkqLoA6lh">
+    <div class="button shimmer">
+      <img src="img/suvarna kannada.png" alt="Image 1" height="30" width="30"> Suvarna 
+    </div>
+  </a>
+ 
+  
+   
+  <a href="https://www.youtube.com/live/2IiTCNRPk7k?si=vRnp79EdSzWztUz7">
+    <div class="button shimmer">
+      <img src="img/News_18_India.png" alt="Image 1" height="30" width="30"> Hindi
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/WUSirGxWh-U?si=eWBnb6j_-RPLasbT">
+    <div class="button shimmer">
+      <img src="img/r.kannada.jpg" alt="Image 1" height="30" width="30"> Republic kannada
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/9f3pSQ5Oio8?si=KRiFJSvVn-YV0KSY">
+    <div class="button shimmer">
+      <img src="img/News-1st-Kannada-removebg-preview.png" alt="Image 1" height="30" width="30"> News first kannada
+    </div>
+  </a>
+ 
+ 
+    <a href="https://www.youtube.com/live/bZ7Iwq7TA5c?si=RykmmqpRaVg0cxpd">
+    <div class="button shimmer">
+      <img src="img/news 5d.jpg" alt="Image 1" height="30" width="30"> News 5 kannada
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/Q-nSNssz3p0?si=xWZEPKExJ5zWSLHB">
+    <div class="button shimmer">
+      <img src="img/ABN_Andhra_Jyothi.webp" alt="Image 1" height="30" width="30"> ABN Telugu
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/L0RktSIM980?si=NlaTpQDYFgyRlq-C">
+    <div class="button shimmer">
+      <img src="img/Ntv_India_official_logo.png" alt="Image 1" height="30" width="30"> NTV Telugu
+    </div>
+  </a>
+  
+
+  <a href="https://www.youtube.com/live/_xtceKvlVYQ?si=jzk07L8WkrUGK1Vt">
+    <div class="button shimmer">
+      <img src="img/V6_News_logo.png" alt="Image 1" height="30" width="30"> V6 News Telugu
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/ox2rT1KRkFI?si=5qj1DPD9lQ0GIKuR">
+    <div class="button shimmer">
+      <img src="img/tv5amed.png" alt="Image 1" height="30" width="30"> TV5 News Telugu
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/8McTsOqeueE?si=FyyMRVOjw75NhqFX">
+    <div class="button shimmer">
+      <img src="img/channels4_profile.jpg" alt="Image 1" height="30" width="30"> Sakshi TV Telugu
+    </div>
+  </a>
+
+
+  <a href="https://www.youtube.com/live/4PpS_RGUzfQ?si=ilcjLLAzLEkZad2W">
+    <div class="button shimmer">
+      <img src="img/prime.jpg" alt="Image 1" height="30" width="30"> Prime9 Telugu
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/MGv7jFOuCc8?si=_eTA5q84GCLVYo5U">
+    <div class="button shimmer">
+      <img src="img/T_News_logo.png"Image 1" height="30" width="30"> T News Telugu
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/3D7e9Vmupuw?si=Yb5DMeWhrvUeycBc">
+    <div class="button shimmer">
+      <img src="img/NewsTamil-24X7.jpg" alt="Image 1" height="30" width="30"> NewsTamil-24X7
+    </div>
+  </a>
+
+
+  <a href="https://www.youtube.com/live/txf8BPueGi4?si=905UvoT0MIIEHhd-">
+    <div class="button shimmer">
+      <img src="img/polimer.jpg" alt="Image 1" height="30" width="30"> Polimer News
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/FeweQREkl44?si=WCR56xBMS1s21x_5">
+    <div class="button shimmer">
+      <img src="img/Logo_of_Thanthi_TV.png" alt="Image 1" height="30" width="30"> Thanthi TV
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/2ywxK3HC4iA?si=l8OaMJ8-cw8DdXvM">
+    <div class="button shimmer">
+      <img src="img/sun-news-logo-107E32491A-seeklogo.com.png" alt="Image 1" height="30" width="30"> Sun News
+    </div>
+  </a>
+
+  <a href="https://www.youtube.com/live/Zibn0PKh_rM?si=gqavMbqp_-crQjgd">
+    <div class="button shimmer">
+      <img src="img/zee-news1656.logowik.com.webp" alt="Image 1" height="30" width="30"> Zee News
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/Nq2wYlWFucg?si=N5TYMzoIqgbGry7V">
+    <div class="button shimmer">
+      <img src="img/Aaj_tak_logo.png" alt="Image 1" height="30" width="30"> aaj tak
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/Xmm3Kr5P1Uw?si=e-j3qWuLnWH4NCwv">
+    <div class="button shimmer">
+      <img src="img/indiatv_profile (1).jpg" alt="Image 1" height="30" width="30"> India tv
+    </div>
+  </a>
+
+  <a href="https://www.youtube.com/live/nyd-xznCpJc?si=p1_d7FI4oKZuZaRA">
+    <div class="button shimmer">
+      <img src="img/109657-abplogo.jpg" alt="Image 1" height="30" width="30">ABP News
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/W65vX2PVWB4?si=0hpIh6BpJiv3QtNQ">
+    <div class="button shimmer">
+      <img src="img/Republic_Bharat_Logo.jpg" alt="Image 1" height="30" width="30"> republic bharath
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/lmZRiDMK3OU?si=DG7-woF1JqErOQlf">
+    <div class="button shimmer">
+      <img src="img/wion.jpg" alt="Image 1" height="30" width="30"> WION 
+    </div>
+  </a>
+
+  <a href="https://www.youtube.com/live/gCNeDWCI0vo?si=q9W5BDR85AACm4XN">
+    <div class="button shimmer">
+      <img src="img/ai jazeera.jpg" alt="Image 1" height="30" width="30"> AI Jazeera English
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/H64tL4X3sv8?si=allYRQJ5DiIrps8b">
+    <div class="button shimmer">
+      <img src="img/abc.jpg" alt="Image 1" height="30" width="30"> ABC News 
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/eB4tiufucdo?si=uoiZVzlgg9k8N5PL">
+    <div class="button shimmer">
+      <img src="img/india.jpg" alt="Image 1" height="30" width="30"> India Today
+    </div>
+  </a>
+
+  <a href="https://www.youtube.com/live/9Auq9mYxFEE?si=PQTYFAVf6svAxdcc">
+    <div class="button shimmer">
+      <img src="img/sky-news-logo.jpg" alt="Image 1" height="30" width="30"> Sky news
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/tkDUSYHoKxE?si=MufGZBPVZnf2aTg2">
+    <div class="button shimmer">
+      <img src="img/france.jog.png" alt="Image 1" height="30" width="30"> France 24 English
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/L0RktSIM980?si=NlaTpQDYFgyRlq-C">
+    <div class="button shimmer">
+      <img src="img/Ntv_India_official_logo.png" alt="Image 1" height="30" width="30"> NTV Telugu
+    </div>
+  </a>
+
+  <a href="https://www.youtube.com/live/L0RktSIM980?si=NlaTpQDYFgyRlq-C">
+    <div class="button shimmer">
+      <img src="img/Ntv_India_official_logo.png" alt="Image 1" height="30" width="30"> NTV Telugu
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/L0RktSIM980?si=NlaTpQDYFgyRlq-C">
+    <div class="button shimmer">
+      <img src="img/Ntv_India_official_logo.png" alt="Image 1" height="30" width="30"> NTV Telugu
+    </div>
+  </a>
+  
+ 
+  </div>
+</div>
+</div>
+
+
+<div class="container" data-category="English">
+  <div class="name1">
+<p>English news channels</p></div>
+<div class="buttonbox1">
+  
+  <div class="button-container">
+    <a href="https://www.youtube.com/live/lmZRiDMK3OU?si=DG7-woF1JqErOQlf">
+    <div class="button shimmer">
+      <img src="img/wion.jpg" alt="Image 1" height="30" width="30"> WION
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/gCNeDWCI0vo?si=q9W5BDR85AACm4XN">
+    <div class="button shimmer">
+      <img src="img/ai jazeera.jpg" alt="Image 1" height="30" width="30"> AIJazeera English
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/H64tL4X3sv8?si=allYRQJ5DiIrps8b">
+    <div class="button shimmer">
+      <img src="img/abc.jpg" alt="Image 1" height="30" width="30"> ABC News
+    </div>
+  </a>
+  
+ 
+    <a href="https://www.youtube.com/live/eB4tiufucdo?si=uoiZVzlgg9k8N5PL">
+    <div class="button shimmer">
+      <img src="img/india.jpg" alt="Image 1" height="30" width="30"> India Today
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/9Auq9mYxFEE?si=PQTYFAVf6svAxdcc">
+    <div class="button shimmer">
+      <img src="img/sky-news-logo.jpg" alt="Image 1" height="30" width="30"> Sky News
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/tkDUSYHoKxE?si=MufGZBPVZnf2aTg2">
+    <div class="button shimmer">
+      <img src="img/france.jog.png" alt="Image 1" height="30" width="30"> France 24 English
+    </div>
+  </a>
+ 
+    <a href="https://www.youtube.com/shorts/">
+    <div class="button shimmer">
+      <img src="img/ytshorts.png" alt="Image 1" height="30" width="30"> Shorts
+    </div>
+  </a>
+  <a href="https://www.youtube.com/shorts/">
+    <div class="button shimmer">
+      <img src="img/ytshorts.png" alt="Image 1" height="30" width="30"> Shorts
+    </div>
+  </a>
+  <a href="https://www.youtube.com/shorts/">
+    <div class="button shimmer">
+      <img src="img/ytshorts.png" alt="Image 1" height="30" width="30"> Shorts
+    </div>
+  </a>
+ 
+    <a href="https://www.youtube.com/shorts/">
+    <div class="button shimmer">
+      <img src="img/ytshorts.png" alt="Image 1" height="30" width="30"> Shorts
+    </div>
+  </a>
+  <a href="https://www.youtube.com/shorts/">
+    <div class="button shimmer">
+      <img src="img/ytshorts.png" alt="Image 1" height="30" width="30"> Shorts
+    </div>
+  </a>
+  <a href="https://www.youtube.com/shorts/">
+    <div class="button shimmer">
+      <img src="img/ytshorts.png" alt="Image 1" height="30" width="30"> Shorts
+    </div>
+  </a>
+ 
+  </div>
+</div>
+</div>
+
+
+
+<div class="container" data-category="Kannada">
+
+  <div class="name1">
+<p>Kannada News Channels</p></div>
+<div class="buttonbox1">
+  <div class="button-container">
+
+  <a href="https://www.youtube.com/live/5nC2sKATujM?si=p_GgWPlOGXV8v4Zv">
+    <div class="button shimmer">
+      <img src="img/640px-News18_Kannada_logo-removebg-preview.png" alt="Image 1" height="30" width="30"> news18 kannada
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/pN8Bo4CnAxI?si=uiW6uzejkqLoA6lh">
+    <div class="button shimmer">
+      <img src="img/suvarna kannada.png" alt="Image 1" height="30" width="30"> Suvarna 
+    </div>
+  </a>
+  <a href="https://www.youtube.com/watch?v=5nC2sKATujM">
+    <div class="button shimmer">
+      <img src="img/tv9 kannada.png" alt="Image 1" height="30" width="30"> kannada
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/WUSirGxWh-U?si=eWBnb6j_-RPLasbT">
+    <div class="button shimmer">
+      <img src="img/r.kannada.jpg" alt="Image 1" height="30" width="30"> Republic kannada
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/9f3pSQ5Oio8?si=KRiFJSvVn-YV0KSY">
+    <div class="button shimmer">
+      <img src="img/News-1st-Kannada-removebg-preview.png" alt="Image 1" height="30" width="30"> News first kannada
+    </div>
+  </a>
+ 
+    <a href="https://www.youtube.com/live/bZ7Iwq7TA5c?si=RykmmqpRaVg0cxpd">
+    <div class="button shimmer">
+      <img src="img/news 5d.jpg" alt="Image 1" height="30" width="30"> News 5 kannada
+    </div>
+  </a>
+ 
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="container" data-category="Telugu">
+  <div class="name1">
+<p> Telugu News Channels</p></div>
+<div class="buttonbox1">
+    <div class="button-container">
+
+  <a href="https://www.youtube.com/live/Q-nSNssz3p0?si=xWZEPKExJ5zWSLHB">
+    <div class="button shimmer">
+      <img src="img/ABN_Andhra_Jyothi.webp" alt="Image 1" height="30" width="30"> ABN Telugu
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/L0RktSIM980?si=NlaTpQDYFgyRlq-C">
+    <div class="button shimmer">
+      <img src="img/Ntv_India_official_logo.png" alt="Image 1" height="30" width="30"> NTV Telugu
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/_xtceKvlVYQ?si=jzk07L8WkrUGK1Vt">
+    <div class="button shimmer">
+      <img src="img/V6_News_logo.png" alt="Image 1" height="30" width="30"> V6 News Telugu
+    </div>
+  </a>
+
+  <a href="https://www.youtube.com/live/ox2rT1KRkFI?si=5qj1DPD9lQ0GIKuR">
+    <div class="button shimmer">
+      <img src="img/tv5amed.png" alt="Image 1" height="30" width="30"> TV5 News Telugu
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/8McTsOqeueE?si=FyyMRVOjw75NhqFX">
+    <div class="button shimmer">
+      <img src="img/channels4_profile.jpg" alt="Image 1" height="30" width="30"> Sakshi TV Telugu
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/4PpS_RGUzfQ?si=ilcjLLAzLEkZad2W">
+    <div class="button shimmer">
+      <img src="img/prime.jpg" alt="Image 1" height="30" width="30"> Prime9 Telugu
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/MGv7jFOuCc8?si=_eTA5q84GCLVYo5U">
+    <div class="button shimmer">
+      <img src="img/T_News_logo.png"Image 1" height="30" width="30"> T News Telugu
+    </div>
+  </a>
+  </div>
+</div>
+</div>
+
+
+
+<div class="container" data-category="Tamil">
+  <div class="name1">
+<p>Tamil News Channels</p></div>
+<div class="buttonbox1">
+
+  <div class="button-container">
+
+  <a href="https://www.youtube.com/live/3D7e9Vmupuw?si=Yb5DMeWhrvUeycBc">
+    <div class="button shimmer">
+      <img src="img/NewsTamil-24X7.jpg" alt="Image 1" height="30" width="30"> NewsTamil-24X7
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/txf8BPueGi4?si=905UvoT0MIIEHhd-">
+    <div class="button shimmer">
+      <img src="img/polimer.jpg" alt="Image 1" height="30" width="30"> Polimer News
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/FeweQREkl44?si=WCR56xBMS1s21x_5">
+    <div class="button shimmer">
+      <img src="img/Logo_of_Thanthi_TV.png" alt="Image 1" height="30" width="30"> Thanthi TV
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/2ywxK3HC4iA?si=l8OaMJ8-cw8DdXvM">
+    <div class="button shimmer">
+      <img src="img/sun-news-logo-107E32491A-seeklogo.com.png" alt="Image 1" height="30" width="30"> Sun News
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/Zibn0PKh_rM?si=gqavMbqp_-crQjgd">
+    <div class="button shimmer">
+      <img src="img/zee-news1656.logowik.com.webp" alt="Image 1" height="30" width="30"> Zee News
+    </div>
+  </a>
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+
+<div class="container" data-category="Hindi">
+  <div class="name1">
+<p>Hindi News Channels</p></div>
+<div class="buttonbox1">
+  
+  <div class="button-container">
+    <a href="https://www.youtube.com/live/Zibn0PKh_rM?si=gqavMbqp_-crQjgd">
+      <div class="button shimmer">
+        <img src="img/zee-news1656.logowik.com.webp" alt="Image 1" height="30" width="30"> Zee News
+      </div>
+    </a>
+    <a href="https://www.youtube.com/live/Xmm3Kr5P1Uw?si=e-j3qWuLnWH4NCwv">
+      <div class="button shimmer">
+        <img src="img/indiatv_profile (1).jpg" alt="Image 1" height="30" width="30"> India tv
+      </div>
+    </a>
+    <a href="https://www.youtube.com/live/nyd-xznCpJc?si=p1_d7FI4oKZuZaRA">
+    <div class="button shimmer">
+      <img src="img/109657-abplogo.jpg" alt="Image 1" height="30" width="30"> ABP News
+    </div>
+  </a>
+
+
+  <a href="https://www.youtube.com/live/W65vX2PVWB4?si=0hpIh6BpJiv3QtNQ">
+    <div class="button shimmer">
+      <img src="img/Republic_Bharat_Logo.jpg" alt="Image 1" height="30" width="30"> Republic bharath
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/Nq2wYlWFucg?si=N5TYMzoIqgbGry7V">
+    <div class="button shimmer">
+      <img src="img/Aaj_tak_logo.png" alt="Image 1" height="30" width="30"> Aaj tak
+    </div>
+  </a>
+ 
+  
+    <a href="https://www.youtube.com/live/Xmm3Kr5P1Uw?si=e-j3qWuLnWH4NCwv">
+    <div class="button shimmer">
+      <img src="img/indiatv_profile (1).jpg" alt="Image 1" height="30" width="30"> india tv
+    </div>
+  </a>
+
+  <a href="https://www.youtube.com/live/Zibn0PKh_rM?si=gqavMbqp_-crQjgd">
+    <div class="button shimmer">
+      <img src="img/zee-news1656.logowik.com.webp" alt="Image 1" height="30" width="30"> Zee news
+    </div>
+  </a>
+  <a href="https://www.youtube.com/shorts/">
+    <div class="button shimmer">
+      <img src="img/ytshorts.png" alt="Image 1" height="30" width="30"> Shorts
+    </div>
+  </a>
+ 
+  
+    <a href="https://www.youtube.com/shorts/">
+    <div class="button shimmer">
+      <img src="img/ytshorts.png" alt="Image 1" height="30" width="30"> Shorts
+    </div>
+  </a>
+
+  <a href="https://www.youtube.com/shorts/">
+    <div class="button shimmer">
+      <img src="ytshorts.png" alt="Image 1" height="30" width="30"> Shorts
+    </div>
+  </a>
+  <a href="https://www.youtube.com/shorts/">
+    <div class="button shimmer">
+      <img src="img/ytshorts.png" alt="Image 1" height="30" width="30"> Shorts
+    </div>
+  </a>
+ 
+  
+    <a href="https://www.youtube.com/shorts/">
+    <div class="button shimmer">
+      <img src="img/ytshorts.png" alt="Image 1" height="30" width="30"> Shorts
+    </div>
+  </a>
+
+  <a href="https://www.youtube.com/shorts/">
+    <div class="button shimmer">
+      <img src="img/ytshorts.png" alt="Image 1" height="30" width="30"> Shorts
+    </div>
+  </a>
+  <a href="https://www.youtube.com/shorts/">
+    <div class="button shimmer">
+      <img src="img/ytshorts.png" alt="Image 1" height="30" width="30"> Shorts
+    </div>
+  </a>
+  </div>
+ 
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+      function handleButtonClick(button) {
+    document.querySelectorAll('.filter-button').forEach(btn => {
+      btn.classList.remove('active');
+    });
+
+    button.classList.add('active');
+
+    const category = button.getAttribute('data-category');
+    filterVideos(category);
+  }
+
+  document.querySelectorAll('.filter-button').forEach(button => {
+    button.addEventListener('click', () => {
+      handleButtonClick(button);
+    });
+  });
+
+  function filterVideos(category) {
+    const videoItems = document.querySelectorAll('.container');
+    let noResultsMessage = document.getElementById('no-results-message');
+    let hasResults = false;
+
+    videoItems.forEach(item => {
+      const itemCategory = item.getAttribute('data-category');
+
+      if (category === 'all' || itemCategory === category) {
+        item.style.display = 'block';
+        hasResults = true;
+      } else {
+        item.style.display = 'none';
+      }
+    });
+
+    noResultsMessage.style.display = hasResults ? 'none' : 'block';
+  }
+
+  function showContainer(containerId, category) {
+    const containers = document.querySelectorAll('.container');
+    containers.forEach(container => {
+      container.style.display = 'none';
+    });
+
+    const container = document.querySelector(`.${containerId}`);
+    if (category) {
+      filterVideos(category);
+    } else {
+      container.style.display = 'block';
+    }
+  }
+
+  function showAll() {
+    const containers = document.querySelectorAll('.container');
+    containers.forEach(container => {
+      container.style.display = 'block';
+    });
+
+    filterVideos('all');
+  }
+     
+     
+     
+     // JavaScript to show the offline message and update its style based on internet connectivity
+     function updateOnlineStatus() {
+      const offlineMessage = document.getElementById('offline-message');
+      const online = navigator.onLine;
+
+      if (online) {
+        offlineMessage.classList.add('online');
+        offlineMessage.innerText = 'Internet connection restored!';
+        setTimeout(() => {
+          offlineMessage.style.display = 'none';
+          offlineMessage.classList.remove('online');
+        }, 3000); // Hide the message after 3 seconds
+      } else {
+        offlineMessage.style.display = 'block';
+        offlineMessage.innerText = 'You are currently offline. Please check your internet connection.';
+      }
+    }
+
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+
+     
+     
+     </script> 
+    
+</body>
+</html>
